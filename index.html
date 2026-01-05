@@ -57,10 +57,14 @@
 
     <script>
         function changeMode(url, btn) {
-            // Iframe'i değiştir
-            document.getElementById('main-frame').src = url + "/?__theme=dark";
+            // URL'nin sonuna doğru parametreyi ekleyelim
+            var finalUrl = url;
+            if (!url.includes("?__theme=dark")) {
+                finalUrl = url + "/?__theme=dark";
+            }
             
-            // Butonların aktiflik durumunu güncelle
+            document.getElementById('main-frame').src = finalUrl;
+            
             document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
         }
