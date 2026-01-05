@@ -48,11 +48,13 @@
         <div class="nav-buttons">
             <button class="btn active" onclick="changeMode('https://teotonix-maindai.hf.space', this)">💬 Sohbet</button>
             <button class="btn" onclick="changeMode('https://teotonix-maindai-image.hf.space', this)">🎨 Görsel Oluştur</button>
-        </div>
-    </nav>
 
-    <div class="chat-container">
-        <iframe id="main-frame" src="https://teotonix-maindai.hf.space/?__theme=dark"></iframe>
+<iframe 
+    id="main-frame" 
+    src="https://teotonix-maindai.hf.space/?__theme=dark"
+    allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+    sandbox="allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-downloads"
+></iframe>
     </div>
 
     <script>
