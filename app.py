@@ -1,26 +1,18 @@
 import gradio as gr
-from transformers import pipeline
-import torch
-import requests
-import io
-from PIL import Image
 
-# Yazı modeli
-text_model = pipeline("text-generation", model="TinyLlama/TinyLlama-1.1B-Chat-v1.0", torch_dtype=torch.bfloat16, device_map="auto")
+# Dünyanın en hızlı modellerinden biri: SDXL Turbo
+# 1 ile 4 adım arasında görseli tamamlar.
+model_id = "stabilityai/sdxl-turbo"
 
-# Görsel oluşturma fonksiyonu (Hugging Face üzerinden)
-def generate_image(prompt):
-    # Not: Bu kısım için ücretsiz bir API kullanacağız
-    API_URL = "https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5"
-    # Buraya kendi HF Token'ını eklemen gerekebilir, şimdilik basit tutalım
-    response = requests.post(API_URL, json={"inputs": prompt})
-    return Image.open(io.BytesIO(response.content))
+# Gradio arayüzünü doğrudan modelden yükle
+# "Direct Inference" kullanarak en yüksek hıza ulaşıyoruz
+interface = gr.load(
+    name=f"models/{model_id}",
+    title="Maind AI Studio | Hızlı Görsel Oluşturucu",
+    description="Hayalindeki görseli İngilizce olarak tarif et, saniyeler içinde çizelim.",
+    theme="finesse" # Modern ve temiz bir tema
+)
 
-def chat(message, history):
-    if "resim çiz" in message.lower() or "görsel oluştur" in message.lower():
-        prompt = message.replace("resim çiz", "").replace("görsel oluştur", "").strip()
-        img = generate_image(prompt)
-        return "İşte istediğin görsel: ", img # Gradio bunu otomatik işler
-    
-    # Normal sohbet kısmı (Eski kodun devamı)
-    # ... (Önceki yazdığımız chat mantığı buraya gelecek)
+if __name__ == "__main__":
+    # Sıraya alma (Queue) sistemini açıyoruz ki yoğunlukta çökmesin
+    interface.queue().launch(show_api=False)
